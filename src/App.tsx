@@ -1,22 +1,25 @@
-import {useState} from "react";
 import styled from "@emotion/styled";
 import Button from "./components/Button";
 import GameScreen from "./components/GameScreen";
+import useGameBoard from "./hooks/useGameBoard";
 
 export default function () {
-  // const [gameState, setGameState] = useState<"game" | "settings">("game");
+  const {onRestart, computedBoardState, onChipClick} = useGameBoard();
 
   return (
     <MainWrapper>
-      <Header>
+      <StyledHeader>
         <Title>Memory game</Title>
         <ButtonsWrapper>
-          <Button variant="primary">Restart</Button>
-          <Button variant="secondary">New Game</Button>
+          <Button onClick={onRestart} variant="primary">
+            Restart
+          </Button>
+          <Button onClick={() => {}} variant="secondary">
+            New Game
+          </Button>
         </ButtonsWrapper>
-      </Header>
-
-      <GameScreen />
+      </StyledHeader>
+      <GameScreen computedBoardState={computedBoardState} onChipClick={onChipClick} />
     </MainWrapper>
   );
 }
@@ -33,7 +36,7 @@ const ButtonsWrapper = styled.div`
   gap: 10px;
 `;
 
-const Header = styled.header`
+const StyledHeader = styled.header`
   display: flex;
   justify-content: space-around;
   width: 900px;

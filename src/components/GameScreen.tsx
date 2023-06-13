@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
-import React from "react";
-import useGameBoard, {Chip} from "../hooks/useGameBoard";
+import {Chip, ChipData} from "../hooks/useGameBoard";
 
-interface GameScreenProps {}
+interface GameScreenProps {
+  computedBoardState: Chip[][] | undefined;
+  onChipClick: (_: React.MouseEvent<HTMLSpanElement, MouseEvent>, data: ChipData) => void;
+}
 
-const GameScreen: React.FC<GameScreenProps> = () => {
-  const {computedBoardState, onChipClick} = useGameBoard();
-
+const GameScreen = ({computedBoardState, onChipClick}: GameScreenProps) => {
   return (
     <GameScreenWrapper>
       <BoardWrapper>
@@ -40,7 +40,7 @@ const GameScreenWrapper = styled.div`
 `;
 
 const BoardWrapper = styled.div`
-  width: 600px;
+  width: 500px;
   max-width: 100%;
 `;
 
@@ -57,8 +57,8 @@ const StyledChip = styled.span<Pick<Chip, "state">>`
   background-color: ${({state}) =>
     state === "hidden" ? "#31485a" : state === "selected" ? "orange" : "#bcceda"};
   border-radius: 50%;
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   cursor: pointer;
   color: #f5f9fa;
   font-size: 28px;

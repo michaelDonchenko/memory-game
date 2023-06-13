@@ -3,11 +3,12 @@ import styled from "@emotion/styled";
 interface ButtonProps {
   variant: "primary" | "secondary";
   children: string;
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Button: React.FC<ButtonProps> = ({variant, children}) => {
+const Button: React.FC<ButtonProps> = ({variant, children, onClick}) => {
   return (
-    <StyledButton type="button" variant={variant}>
+    <StyledButton onClick={onClick} type="button" variant={variant}>
       {children}
     </StyledButton>
   );

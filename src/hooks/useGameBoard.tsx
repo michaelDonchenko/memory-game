@@ -6,7 +6,7 @@ export interface Chip {
   state: "hidden" | "selected" | "reveled";
 }
 
-interface ChipData extends Chip {
+export interface ChipData extends Chip {
   chipPosition: [number, number];
 }
 
@@ -89,7 +89,7 @@ const useGameBoard = () => {
         }, 1000);
       }
     },
-    [selectedChips]
+    [selectedChips, boardFreeze]
   );
 
   const onChipClick = useCallback(
@@ -110,13 +110,17 @@ const useGameBoard = () => {
         if (state === "hidden") {
           onSecondChipClick({chipPosition, value});
         }
-      } else {
-        // this should not be an options
-        return;
       }
     },
     [selectedChips, computedBoardState]
   );
+
+  const onRestart = useCallback(() => {
+    setComputedBoardState((prev) =>
+      prev?.map((row) => row.map((cell) => ({...cell, state: "hidden"})))
+    );
+    setSelectedChips([]);
+  }, [computedBoardState]);
 
   useEffect(() => {
     setComputedBoardState(
@@ -135,6 +139,7 @@ const useGameBoard = () => {
     moves,
     setMoves,
     onChipClick,
+    onRestart,
   };
 };
 
