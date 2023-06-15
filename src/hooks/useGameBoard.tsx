@@ -33,8 +33,6 @@ const useGameBoard = ({difficulty = "4x4"}: UseGameBoard) => {
     [computedBoardState]
   );
 
-  console.log({isGameFinished});
-
   const onFirstChipClick = useCallback(({data, chipPosition, value}: OnClickArgs) => {
     setComputedBoardState((prev) => {
       let stateCopy = prev?.map((row) => row.map((cell) => cell));

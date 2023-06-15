@@ -9,7 +9,6 @@ const useSettings = () => {
     (_: React.MouseEvent<HTMLButtonElement, MouseEvent>, players: 1 | 2) => {
       setNumberOfPlayers(players);
     },
-
     []
   );
 
