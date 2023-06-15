@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import {generateGameBoard} from "../utils/generateGameBoard";
+import {GameType, generateGameBoard} from "../utils/generateGameBoard";
 
 export interface Chip {
   value: number;
@@ -16,13 +16,18 @@ interface OnClickArgs {
   value: number;
 }
 
-const useGameBoard = () => {
-  const [gameBoard, setGameBoard] = useState<number[][]>(generateGameBoard("4x4"));
+interface UseGameBoard {
+  difficulty: GameType;
+}
+
+const useGameBoard = ({difficulty = "4x4"}: UseGameBoard) => {
+  const [gameBoard, setGameBoard] = useState<number[][]>(generateGameBoard(difficulty));
   const [time, setTime] = useState(0);
   const [moves, setMoves] = useState(0);
   const [selectedChips, setSelectedChips] = useState<ChipData[]>([]);
   const [computedBoardState, setComputedBoardState] = useState<Chip[][]>();
   const [boardFreeze, setBoardFreeze] = useState(false);
+  const [startTimer, setStartTimer] = useState(false);
 
   const onFirstChipClick = useCallback(({data, chipPosition, value}: OnClickArgs) => {
     setComputedBoardState((prev) => {
@@ -101,6 +106,9 @@ const useGameBoard = () => {
       if (boardFreeze) {
         return;
       }
+      if (startTimer === false) {
+        setStartTimer(true);
+      }
 
       if (selectedChips.length === 0) {
         if (state === "hidden") {
@@ -109,6 +117,7 @@ const useGameBoard = () => {
       } else if (selectedChips.length === 1) {
         if (state === "hidden") {
           onSecondChipClick({chipPosition, value});
+          setMoves((prev) => prev + 1);
         }
       }
     },
@@ -130,6 +139,24 @@ const useGameBoard = () => {
     );
   }, [gameBoard]);
 
+  useEffect(() => {
+    setGameBoard(generateGameBoard(difficulty));
+  }, [difficulty]);
+
+  useEffect(() => {
+    let timerInterval: number | undefined;
+    if (startTimer) {
+      timerInterval = setInterval(() => {
+        setTime((prev) => prev + 1);
+      }, 1000);
+    } else {
+      clearInterval(timerInterval);
+    }
+    return () => {
+      clearInterval(timerInterval);
+    };
+  }, [startTimer]);
+
   return {
     gameBoard,
     setGameBoard,
@@ -140,6 +167,7 @@ const useGameBoard = () => {
     setMoves,
     onChipClick,
     onRestart,
+    setStartTimer,
   };
 };
 

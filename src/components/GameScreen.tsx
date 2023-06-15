@@ -33,7 +33,6 @@ const GameScreenWrapper = styled.div`
   flex-direction: column;
   width: 900px;
   max-width: 100%;
-  height: 100%;
   align-items: center;
   padding: 16px;
   margin: 16px;
@@ -62,9 +61,13 @@ const StyledChip = styled.span<Pick<Chip, "state">>`
   cursor: pointer;
   color: #f5f9fa;
   font-size: 28px;
-  font-family: "Courier New", Courier, monospace;
   font-weight: bold;
   border: none;
+
+  &:hover {
+    background-color: ${({state}) =>
+      state === "hidden" ? "#182c3a" : state === "selected" ? "orange" : "#bcceda"};
+  }
 `;
 
 export default GameScreen;

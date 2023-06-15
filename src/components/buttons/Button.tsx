@@ -22,6 +22,6 @@ const StyledButton = styled.button<Pick<ButtonProps, "variant">>`
   border: none;
   border-radius: 24px;
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
 `;

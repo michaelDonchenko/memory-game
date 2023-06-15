@@ -1,4 +1,4 @@
-type GameType = "4x4" | "6x6";
+export type GameType = "4x4" | "6x6";
 type RandomSpots = {
   [randomSpot: string]: {x: number; y: number};
 };
