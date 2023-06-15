@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import {GameType, generateGameBoard} from "../utils/generateGameBoard";
 
 export interface Chip {
@@ -28,6 +28,12 @@ const useGameBoard = ({difficulty = "4x4"}: UseGameBoard) => {
   const [computedBoardState, setComputedBoardState] = useState<Chip[][]>();
   const [boardFreeze, setBoardFreeze] = useState(false);
   const [startTimer, setStartTimer] = useState(false);
+  const isGameFinished = useMemo(
+    () => computedBoardState?.every((row) => row.every((cell) => cell.state === "reveled")),
+    [computedBoardState]
+  );
+
+  console.log({isGameFinished});
 
   const onFirstChipClick = useCallback(({data, chipPosition, value}: OnClickArgs) => {
     setComputedBoardState((prev) => {
@@ -152,10 +158,13 @@ const useGameBoard = ({difficulty = "4x4"}: UseGameBoard) => {
     } else {
       clearInterval(timerInterval);
     }
+    if (isGameFinished) {
+      clearInterval(timerInterval);
+    }
     return () => {
       clearInterval(timerInterval);
     };
-  }, [startTimer]);
+  }, [startTimer, isGameFinished]);
 
   return {
     gameBoard,
