@@ -14,6 +14,7 @@ interface SettingsScreenProps {
   numberOfPlayers: 1 | 2;
   difficulty: GameType;
   handleBackToGame: () => void;
+  handleNewGame: () => void;
 }
 
 const SettingsScreen: React.FC<SettingsScreenProps> = ({
@@ -22,6 +23,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({
   difficulty,
   numberOfPlayers,
   handleBackToGame,
+  handleNewGame,
 }) => {
   return (
     <Wrapper>
@@ -64,6 +66,11 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({
           Changing any of the settings will cause a new game, click on back to game if you wish to
           go back to your game without changes
         </InfoLabel>
+      </Row>
+      <Row>
+        <SettingsButton color="orange" onClick={handleNewGame}>
+          Start new game
+        </SettingsButton>
       </Row>
       <Row>
         <SettingsButton onClick={handleBackToGame}>Back to game</SettingsButton>

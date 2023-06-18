@@ -22,6 +22,7 @@ export default function () {
     setStartTimer,
     moves,
     setMoves,
+    onNewGame,
   } = useGameBoard({
     difficulty,
   });
@@ -41,6 +42,14 @@ export default function () {
   const handleBackToGame = useCallback(() => {
     setMode("game");
   }, [mode]);
+
+  const handleNewGame = useCallback(() => {
+    onNewGame(difficulty);
+    setMode("game");
+    setStartTimer(false);
+    setTime(0);
+    setMoves(0);
+  }, [mode, difficulty]);
 
   const handleDifficultyChange = useCallback(
     (_: React.MouseEvent<HTMLButtonElement, MouseEvent>, gameType: GameType) => {
@@ -84,6 +93,7 @@ export default function () {
           difficulty={difficulty}
           numberOfPlayers={numberOfPlayers}
           handleBackToGame={handleBackToGame}
+          handleNewGame={handleNewGame}
         />
       )}
 

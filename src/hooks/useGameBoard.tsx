@@ -135,6 +135,17 @@ const useGameBoard = ({difficulty = "4x4"}: UseGameBoard) => {
     setSelectedChips([]);
   }, [computedBoardState]);
 
+  const onNewGame = useCallback(
+    (difficulty: GameType) => {
+      setGameBoard(generateGameBoard(difficulty));
+      setComputedBoardState(
+        gameBoard?.map((row) => row.map((chip) => ({value: chip, state: "hidden"})))
+      );
+      setSelectedChips([]);
+    },
+    [gameBoard, computedBoardState]
+  );
+
   useEffect(() => {
     setComputedBoardState(
       gameBoard?.map((row) => {
@@ -175,6 +186,7 @@ const useGameBoard = ({difficulty = "4x4"}: UseGameBoard) => {
     onChipClick,
     onRestart,
     setStartTimer,
+    onNewGame,
   };
 };
 
