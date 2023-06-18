@@ -23,6 +23,12 @@ export default function () {
     moves,
     setMoves,
     onNewGame,
+    currentPlayer,
+    firstPlayerScore,
+    secondPlayerScore,
+    setCurrentPlayer,
+    setFirstPlayerScore,
+    setSecondPlayerScore,
   } = useGameBoard({
     difficulty,
   });
@@ -31,12 +37,19 @@ export default function () {
     setMode("settings");
   }, [mode]);
 
-  const handleRestart = useCallback(() => {
-    onRestart();
-    setMode("game");
+  const handleStatsReset = useCallback(() => {
     setStartTimer(false);
     setTime(0);
     setMoves(0);
+    setCurrentPlayer(1);
+    setFirstPlayerScore(0);
+    setSecondPlayerScore(0);
+  }, []);
+
+  const handleRestart = useCallback(() => {
+    onRestart();
+    setMode("game");
+    handleStatsReset();
   }, [mode]);
 
   const handleBackToGame = useCallback(() => {
@@ -46,17 +59,13 @@ export default function () {
   const handleNewGame = useCallback(() => {
     onNewGame(difficulty);
     setMode("game");
-    setStartTimer(false);
-    setTime(0);
-    setMoves(0);
+    handleStatsReset();
   }, [mode, difficulty]);
 
   const handleDifficultyChange = useCallback(
     (_: React.MouseEvent<HTMLButtonElement, MouseEvent>, gameType: GameType) => {
       onDifficultyChange(_, gameType);
-      setStartTimer(false);
-      setTime(0);
-      setMoves(0);
+      handleStatsReset();
     },
     []
   );
@@ -64,9 +73,7 @@ export default function () {
   const handleNumberOFPlayersChange = useCallback(
     (_: React.MouseEvent<HTMLButtonElement, MouseEvent>, players: 2 | 1) => {
       onNumberOfPlayersChange(_, players);
-      setStartTimer(false);
-      setTime(0);
-      setMoves(0);
+      handleStatsReset();
     },
     []
   );
@@ -98,7 +105,14 @@ export default function () {
       )}
 
       {mode === "game" ? (
-        <StatsFooter numberOfPlayers={numberOfPlayers} time={time} moves={moves} />
+        <StatsFooter
+          firstPlayerScore={firstPlayerScore}
+          secondPlayerScore={secondPlayerScore}
+          currentPlayer={currentPlayer}
+          numberOfPlayers={numberOfPlayers}
+          time={time}
+          moves={moves}
+        />
       ) : null}
     </MainWrapper>
   );

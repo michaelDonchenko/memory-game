@@ -28,6 +28,9 @@ const useGameBoard = ({difficulty = "4x4"}: UseGameBoard) => {
   const [computedBoardState, setComputedBoardState] = useState<Chip[][]>();
   const [boardFreeze, setBoardFreeze] = useState(false);
   const [startTimer, setStartTimer] = useState(false);
+  const [currentPlayer, setCurrentPlayer] = useState<1 | 2>(1);
+  const [firstPlayerScore, setFirstPlayerScore] = useState(0);
+  const [secondPlayerScore, setSecondPlayerScore] = useState(0);
   const isGameFinished = useMemo(
     () => computedBoardState?.every((row) => row.every((cell) => cell.state === "reveled")),
     [computedBoardState]
@@ -64,6 +67,11 @@ const useGameBoard = ({difficulty = "4x4"}: UseGameBoard) => {
           }
         });
         setSelectedChips([]);
+        if (currentPlayer === 1) {
+          setFirstPlayerScore((prev) => prev + 1);
+        } else {
+          setSecondPlayerScore((prev) => prev + 1);
+        }
       } else {
         setBoardFreeze(true);
         setComputedBoardState((prev) => {
@@ -94,11 +102,12 @@ const useGameBoard = ({difficulty = "4x4"}: UseGameBoard) => {
           });
 
           setSelectedChips([]);
+          setCurrentPlayer(currentPlayer === 1 ? 2 : 1);
           setBoardFreeze(false);
         }, 1000);
       }
     },
-    [selectedChips, boardFreeze]
+    [selectedChips, boardFreeze, currentPlayer, firstPlayerScore, secondPlayerScore]
   );
 
   const onChipClick = useCallback(
@@ -187,6 +196,12 @@ const useGameBoard = ({difficulty = "4x4"}: UseGameBoard) => {
     onRestart,
     setStartTimer,
     onNewGame,
+    firstPlayerScore,
+    secondPlayerScore,
+    currentPlayer,
+    setCurrentPlayer,
+    setFirstPlayerScore,
+    setSecondPlayerScore,
   };
 };
 

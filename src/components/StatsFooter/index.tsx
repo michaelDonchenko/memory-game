@@ -4,9 +4,22 @@ interface StatsFooter {
   numberOfPlayers: 1 | 2;
   time: number;
   moves: number;
+  currentPlayer: 1 | 2;
+  firstPlayerScore: number;
+  secondPlayerScore: number;
 }
 
-const StatsFooter: React.FC<StatsFooter> = ({numberOfPlayers, time, moves}) => {
+const StatsFooter: React.FC<StatsFooter> = ({
+  numberOfPlayers,
+  time,
+  moves,
+  currentPlayer,
+  firstPlayerScore,
+  secondPlayerScore,
+}) => {
+  const isFirstPlayerActive = currentPlayer === 1;
+  const isSecondPlayerActive = currentPlayer === 2;
+
   return numberOfPlayers === 1 ? (
     <Wrapper>
       <StatBox>
@@ -25,23 +38,23 @@ const StatsFooter: React.FC<StatsFooter> = ({numberOfPlayers, time, moves}) => {
   ) : (
     <Wrapper>
       <PlayerStatWrapper>
-        <ArrowUp isActive={true} />
-        <StatBox isActive={true}>
+        <ArrowUp isActive={isFirstPlayerActive} />
+        <StatBox isActive={isFirstPlayerActive}>
           <div>
             <div>Player 1</div>
             <div style={{fontSize: "16px", fontWeight: "normal", textAlign: "center"}}>
-              score: 0
+              score: {firstPlayerScore}
             </div>
           </div>
         </StatBox>
       </PlayerStatWrapper>
       <PlayerStatWrapper>
-        <ArrowUp />
-        <StatBox isActive={false}>
+        <ArrowUp isActive={isSecondPlayerActive} />
+        <StatBox isActive={isSecondPlayerActive}>
           <div>
             <div>Player 2</div>
             <div style={{fontSize: "16px", fontWeight: "normal", textAlign: "center"}}>
-              score: 0
+              score: {secondPlayerScore}
             </div>
           </div>
         </StatBox>
