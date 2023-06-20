@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import {toHHMMSS} from "../../utils/numberFormatter";
 
 interface StatsFooter {
   numberOfPlayers: 1 | 2;
@@ -25,13 +26,13 @@ const StatsFooter: React.FC<StatsFooter> = ({
       <StatBox>
         <SpaceAroundWrapper>
           <span style={{color: "#6790a0"}}>Time</span>
-          <span style={{fontSize: "24px"}}>{time}</span>
+          <span style={{fontSize: "16px"}}>{toHHMMSS(time)}</span>
         </SpaceAroundWrapper>
       </StatBox>
       <StatBox>
         <SpaceAroundWrapper>
           <span style={{color: "#6790a0"}}>Moves</span>
-          <span style={{fontSize: "24px"}}>{moves}</span>
+          <span style={{fontSize: "16px"}}>{moves}</span>
         </SpaceAroundWrapper>
       </StatBox>
     </Wrapper>
