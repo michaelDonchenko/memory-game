@@ -1,12 +1,19 @@
 import styled from "@emotion/styled";
 import {Chip, ChipData} from "../hooks/useGameBoard";
+import {GameType} from "../utils/generateGameBoard";
 
 interface GameScreenProps {
   computedBoardState: Chip[][] | undefined;
   onChipClick: (_: React.MouseEvent<HTMLSpanElement, MouseEvent>, data: ChipData) => void;
+  difficulty: GameType;
 }
 
-const GameScreen = ({computedBoardState, onChipClick}: GameScreenProps) => {
+interface ChipProps {
+  state: Chip["state"];
+  difficulty: GameType;
+}
+
+const GameScreen = ({computedBoardState, onChipClick, difficulty}: GameScreenProps) => {
   return (
     <GameScreenWrapper>
       <BoardWrapper>
@@ -17,6 +24,7 @@ const GameScreen = ({computedBoardState, onChipClick}: GameScreenProps) => {
                 onClick={(event) => onChipClick(event, {chipPosition: [i, j], ...chip})}
                 state={chip.state}
                 key={j}
+                difficulty={difficulty}
               >
                 {chip.state === "hidden" ? null : chip.value}
               </StyledChip>
@@ -49,7 +57,7 @@ const Row = styled.div`
   margin-bottom: 16px;
 `;
 
-const StyledChip = styled.span<Pick<Chip, "state">>`
+const StyledChip = styled.span<ChipProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,6 +75,11 @@ const StyledChip = styled.span<Pick<Chip, "state">>`
   &:hover {
     background-color: ${({state}) =>
       state === "hidden" ? "#182c3a" : state === "selected" ? "orange" : "#bcceda"};
+  }
+
+  @media (max-width: 600px) {
+    width: ${({difficulty}) => (difficulty === "4x4" ? "70px" : "50px")};
+    height: ${({difficulty}) => (difficulty === "4x4" ? "70px" : "50px")};
   }
 `;
 

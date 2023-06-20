@@ -92,7 +92,11 @@ export default function () {
         </ButtonsWrapper>
       </StyledHeader>
       {mode === "game" ? (
-        <GameScreen computedBoardState={computedBoardState} onChipClick={onChipClick} />
+        <GameScreen
+          computedBoardState={computedBoardState}
+          onChipClick={onChipClick}
+          difficulty={difficulty}
+        />
       ) : (
         <SettingsScreen
           onDifficultyChange={handleDifficultyChange}
@@ -128,6 +132,11 @@ const MainWrapper = styled.main`
 const ButtonsWrapper = styled.div`
   display: flex;
   gap: 10px;
+
+  @media (max-width: 600px) {
+    justify-content: space-around;
+    margin-top: 10px;
+  }
 `;
 
 const StyledHeader = styled.header`
@@ -137,6 +146,10 @@ const StyledHeader = styled.header`
   max-width: 100%;
   padding: 10px;
   margin: 10px 0;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 const Title = styled.h1`
@@ -147,4 +160,8 @@ const Title = styled.h1`
   font-weight: bold;
   font-family: "Courier New", Courier, monospace;
   cursor: pointer;
+  @media (max-width: 600px) {
+    text-align: center;
+    display: block;
+  }
 `;

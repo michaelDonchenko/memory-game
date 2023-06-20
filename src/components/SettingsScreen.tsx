@@ -82,7 +82,8 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({
 export default SettingsScreen;
 
 const Wrapper = styled.section`
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
   margin: 10px;
   padding: 10px;
   display: flex;
@@ -94,6 +95,10 @@ const Row = styled.div`
   gap: 10px;
   margin-bottom: 10px;
   padding: 4px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 const Title = styled.p`
